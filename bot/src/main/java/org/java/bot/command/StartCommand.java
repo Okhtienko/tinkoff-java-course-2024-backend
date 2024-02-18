@@ -1,4 +1,4 @@
-package org.java.bot.comand;
+package org.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class StartCommand implements Command {
+public class
+StartCommand implements Command {
     private static final String COMMAND = "/start";
     private static final String START_DESCRIPTION = "register a user";
     private static final String HELP_MESSAGE = "Type /help to view the list of commands.";
@@ -33,8 +34,8 @@ public class StartCommand implements Command {
     @Override
     public SendMessage handle(Update update) {
         Long chatId = update.message().chat().id();
-        StringBuilder message = new StringBuilder();
         Long userId = update.message().from().id();
+        StringBuilder message = new StringBuilder();
 
         if (userService.isExists(userId)) {
             log.info("User {} is already registered.", userId);

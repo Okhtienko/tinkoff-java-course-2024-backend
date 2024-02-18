@@ -1,4 +1,4 @@
-package org.java.bot.comand;
+package org.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -32,7 +32,7 @@ public class ListCommand implements Command {
     @BotCommand
     @Override
     public SendMessage handle(Update update) {
-        long chatId = update.message().chat().id();
+        Long chatId = update.message().chat().id();
         log.info("Processing list command for chat ID: {}", chatId);
 
         List<String> trackedLinks = userService.links(update.message().from().id());

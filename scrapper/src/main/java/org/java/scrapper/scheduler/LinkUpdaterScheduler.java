@@ -19,7 +19,7 @@ public class LinkUpdaterScheduler {
         this.delay = config.scheduler().interval();
     }
 
-    @Scheduled(fixedDelayString = "#{@applicationConfig.scheduler.interval}}")
+    @Scheduled(fixedDelayString = "#{@scheduler.interval}")
     public void update() {
         log.info("Placeholder log for update method.");
     }

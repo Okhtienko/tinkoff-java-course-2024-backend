@@ -10,8 +10,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @ConfigurationProperties(prefix = "client")
 @Data
 public class ClientConfiguration {
-    private final String DEFAULT_GITHUB_URL = "https://api.github.com";
-    private final String DEFAULT_STACKOVERFLOW_URL = "https://api.stackexchange.com/2.3";
+    private static final String DEFAULT_GITHUB_URL = "https://api.github.com";
+    private static final String DEFAULT_STACKOVERFLOW_URL = "https://api.stackexchange.com/2.3";
     private String githubBaseUrl;
     private String stackOverflowBaseUrl;
 

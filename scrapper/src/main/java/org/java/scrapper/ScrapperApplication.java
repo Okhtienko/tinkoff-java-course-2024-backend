@@ -1,6 +1,6 @@
-package org.java;
+package org.java.scrapper;
 
-import org.java.configuration.ApplicationConfig;
+import org.java.scrapper.configuration.ApplicationConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

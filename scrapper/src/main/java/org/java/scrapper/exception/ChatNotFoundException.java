@@ -1,0 +1,9 @@
+package org.java.scrapper.exception;
+
+import org.springframework.http.HttpStatus;
+
+public class ChatNotFoundException extends ApiException {
+    public ChatNotFoundException(String message) {
+        super(message, HttpStatus.NOT_FOUND);
+    }
+}

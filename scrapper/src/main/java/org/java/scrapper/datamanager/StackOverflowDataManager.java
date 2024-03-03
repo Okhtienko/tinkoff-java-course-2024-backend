@@ -1,4 +1,4 @@
-package org.java.scrapper.repository;
+package org.java.scrapper.datamanager;
 
 import org.java.scrapper.dto.stackoverflow.StackOverflowAnswerResponse;
 import org.java.scrapper.dto.stackoverflow.StackOverflowQuestionResponse;

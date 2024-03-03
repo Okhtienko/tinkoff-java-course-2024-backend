@@ -2,25 +2,27 @@ package org.java.scrapper.dto.stackoverflow;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
-import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Builder
-@Value
+@Accessors(chain = true)
+@Getter
+@Setter
 public class StackOverflowItemResponse {
     @JsonProperty("question_id")
-    Long id;
+    private Long id;
 
-    String title;
+    private String title;
 
-    StackOverflowOwnerResponse owner;
+    private StackOverflowOwnerResponse owner;
 
     @JsonProperty("last_activity_date")
-    OffsetDateTime lastActivityDate;
+    private OffsetDateTime lastActivityDate;
 
     @JsonProperty("creation_date")
-    OffsetDateTime creationDate;
+    private OffsetDateTime creationDate;
 
     @JsonProperty("last_edit_date")
-    OffsetDateTime lastEditDate;
+    private OffsetDateTime lastEditDate;
 }

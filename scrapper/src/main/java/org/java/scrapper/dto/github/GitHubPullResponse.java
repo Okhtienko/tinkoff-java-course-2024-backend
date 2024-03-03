@@ -2,35 +2,37 @@ package org.java.scrapper.dto.github;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
-import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Builder
-@Value
+@Accessors(chain = true)
+@Getter
+@Setter
 public class GitHubPullResponse {
-    Long id;
+    private Long id;
 
-    String url;
+    private String url;
 
-    Integer number;
+    private Integer number;
 
-    String state;
+    private String state;
 
-    String title;
+    private String title;
 
-    GitHubOwnerResponse user;
+    private GitHubOwnerResponse user;
 
-    String body;
+    private String body;
 
     @JsonProperty("created_at")
-    OffsetDateTime createdDate;
+    private OffsetDateTime createdDate;
 
     @JsonProperty("updated_at")
-    OffsetDateTime updatedDate;
+    private OffsetDateTime updatedDate;
 
     @JsonProperty("closed_at")
-    OffsetDateTime closedDate;
+    private OffsetDateTime closedDate;
 
     @JsonProperty("merged_at")
-    OffsetDateTime mergedDate;
+    private OffsetDateTime mergedDate;
 }

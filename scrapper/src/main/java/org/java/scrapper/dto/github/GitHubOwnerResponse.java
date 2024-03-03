@@ -1,11 +1,13 @@
 package org.java.scrapper.dto.github;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Builder
-@Value
+@Accessors(chain = true)
+@Getter
+@Setter
 public class GitHubOwnerResponse {
-    Long id;
-    String login;
+    private Long id;
+    private String login;
 }

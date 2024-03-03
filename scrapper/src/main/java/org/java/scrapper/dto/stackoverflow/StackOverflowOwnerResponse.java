@@ -1,21 +1,23 @@
 package org.java.scrapper.dto.stackoverflow;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Builder
-@Value
+@Accessors(chain = true)
+@Getter
+@Setter
 public class StackOverflowOwnerResponse {
     @JsonProperty("account_id")
-    Long accountId;
+    private Long accountId;
 
     @JsonProperty("user_id")
-    Long userId;
+    private Long userId;
 
     @JsonProperty("user_type")
-    String type;
+    private String type;
 
     @JsonProperty("display_name")
-    String name;
+    private String name;
 }

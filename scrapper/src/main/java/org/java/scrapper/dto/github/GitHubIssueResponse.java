@@ -2,34 +2,36 @@ package org.java.scrapper.dto.github;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
-import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Builder
-@Value
+@Accessors(chain = true)
+@Getter
+@Setter
 public class GitHubIssueResponse {
-    Long id;
+    private Long id;
 
-    Integer number;
+    private Integer number;
 
-    String title;
+    private String title;
 
-    String body;
+    private String body;
 
-    String state;
+    private String state;
 
-    GitHubOwnerResponse user;
+    private GitHubOwnerResponse user;
 
-    GitHubOwnerResponse assignee;
+    private GitHubOwnerResponse assignee;
 
-    Integer comments;
+    private Integer comments;
 
     @JsonProperty("created_at")
-    OffsetDateTime createdDate;
+    private OffsetDateTime createdDate;
 
     @JsonProperty("updated_at")
-    OffsetDateTime updatedDate;
+    private OffsetDateTime updatedDate;
 
     @JsonProperty("closed_at")
-    String closedDate;
+    private String closedDate;
 }

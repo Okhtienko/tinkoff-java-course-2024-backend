@@ -2,21 +2,23 @@ package org.java.scrapper.dto.github;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
-import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Builder
-@Value
+@Accessors(chain = true)
+@Getter
+@Setter
 public class GitHubRepositoryResponse {
-    Long id;
+    private Long id;
 
-    String name;
+    private String name;
 
-    String description;
+    private String description;
 
     @JsonProperty("created_at")
-    OffsetDateTime createdDate;
+    private OffsetDateTime createdDate;
 
     @JsonProperty("updated_at")
-    OffsetDateTime updatedDate;
+    private OffsetDateTime updatedDate;
 }

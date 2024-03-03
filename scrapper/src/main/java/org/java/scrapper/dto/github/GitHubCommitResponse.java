@@ -1,13 +1,15 @@
 package org.java.scrapper.dto.github;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Builder
-@Value
+@Accessors(chain = true)
+@Getter
+@Setter
 public class GitHubCommitResponse {
-    String sha;
-    String message;
-    String url;
-    GitHubOwnerResponse author;
+    private String sha;
+    private String message;
+    private String url;
+    private GitHubOwnerResponse author;
 }

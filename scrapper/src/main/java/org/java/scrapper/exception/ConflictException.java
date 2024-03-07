@@ -2,8 +2,8 @@ package org.java.scrapper.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class DuplicateChatRegistrationException extends ApiException {
-    public DuplicateChatRegistrationException(String message) {
+public class ConflictException extends ApiException {
+    public ConflictException(String message) {
         super(message, HttpStatus.CONFLICT);
     }
 }

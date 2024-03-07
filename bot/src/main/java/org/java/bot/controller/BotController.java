@@ -18,6 +18,6 @@ public class BotController {
     @PostMapping("/updates")
     public ResponseEntity<String> sendUpdate(@RequestBody LinkUpdateRequest request) {
         updateService.sendUpdate(request);
-        return ResponseEntity.ok().body("Send update");
+        return ResponseEntity.ok().body("Update processed successfully");
     }
 }

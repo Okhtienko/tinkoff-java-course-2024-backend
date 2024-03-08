@@ -25,13 +25,13 @@ public class ScrapperController {
     @PostMapping("/{id}")
     public ResponseEntity<String> register(@PathVariable Long id) {
         linkService.register(id);
-        return ResponseEntity.ok().body("Chat registered");
+        return ResponseEntity.ok().body("Registration successful");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         linkService.delete(id);
-        return ResponseEntity.ok().body("Chat deleted successfully");
+        return ResponseEntity.ok().body("Deletion successful");
     }
 
     @GetMapping("/links")

@@ -8,10 +8,9 @@ import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.java.scrapper.dto.LinkResponse;
-import org.java.scrapper.exception.ChatNotFoundException;
-import org.java.scrapper.exception.DuplicateChatRegistrationException;
-import org.java.scrapper.exception.InvalidRequestException;
-import org.java.scrapper.exception.LinkNotFoundException;
+import org.java.scrapper.exception.BadRequestException;
+import org.java.scrapper.exception.ConflictException;
+import org.java.scrapper.exception.NotFoundException;
 import org.java.scrapper.repository.LinkRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,7 @@ public class LinkService implements LinkRepository {
     public void register(Long id) {
         validateChat(id);
         if (links.containsKey(id)) {
-            throw new DuplicateChatRegistrationException("Chat already registered");
+            throw new ConflictException("Chat already registered");
         }
         links.put(id, new ArrayList<>());
     }
@@ -37,7 +36,7 @@ public class LinkService implements LinkRepository {
     public void delete(Long id) {
         validateChat(id);
         if (!links.containsKey(id)) {
-            throw new ChatNotFoundException("Chat not found");
+            throw new NotFoundException("Chat not found");
         }
         links.remove(id);
     }
@@ -46,7 +45,7 @@ public class LinkService implements LinkRepository {
     public List<LinkResponse> gets(Long id) {
         log.info("Retrieving links for chat ID: {}", id);
         if (!links.containsKey(id)) {
-            throw new InvalidRequestException("Invalid Chat ID");
+            throw new BadRequestException("Invalid Chat ID");
         }
         return links.get(id);
     }
@@ -71,7 +70,7 @@ public class LinkService implements LinkRepository {
         validateUrl(url);
 
         if (!exists(id, url)) {
-            throw new LinkNotFoundException("Link not found");
+            throw new NotFoundException("Link not found");
         }
 
         LinkResponse link = new LinkResponse().setId(1L).setUrl(new URI(url));
@@ -86,13 +85,13 @@ public class LinkService implements LinkRepository {
 
     private void validateChat(Long id) {
         if (id == null) {
-            throw new InvalidRequestException("Invalid request parameters: Chat ID cannot be null");
+            throw new BadRequestException("Invalid request parameters: Chat ID cannot be null");
         }
     }
 
     private void validateUrl(String url) {
         if (!checkLinkFormat(url)) {
-            throw new InvalidRequestException("Invalid request parameters");
+            throw new BadRequestException("Invalid request parameters");
         }
     }
 

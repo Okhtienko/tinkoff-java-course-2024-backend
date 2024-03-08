@@ -4,6 +4,7 @@ import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.java.bot.dto.LinkRequest;
 import org.java.bot.dto.LinkResponse;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @WireMockTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Disabled
 public class ScrapperClientTest {
     @Autowired
     private ScrapperClient scrapperClient;

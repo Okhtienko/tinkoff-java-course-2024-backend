@@ -4,7 +4,6 @@ import org.java.bot.dto.LinkRequest;
 import org.java.bot.dto.LinkResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -12,6 +11,9 @@ import reactor.core.publisher.Mono;
 @Service
 public class ScrapperClient {
     private static final String DEFAULT_BASE_URL = "http://localhost:8080/api/v1/scrapper";
+    private static final String URL_LINKS = "/links";
+    private static final String TG_HEADER = "Tg-Chat-Id";
+    private static final String URL_ID = "/{id}";
 
     private final WebClient webClient;
 
@@ -23,42 +25,40 @@ public class ScrapperClient {
 
     public Mono<String> register(Long id) {
         return webClient.post()
-            .uri("/{id}", id)
+            .uri(URL_ID, id)
             .retrieve()
             .bodyToMono(String.class);
     }
 
     public Mono<String> delete(Long id) {
         return webClient.delete()
-            .uri("/{id}", id)
+            .uri(URL_ID, id)
             .retrieve()
             .bodyToMono(String.class);
     }
 
     public Flux<LinkResponse> gets(Long id) {
         return webClient.get()
-            .uri("/links")
-            .header("Tg-Chat-Id", String.valueOf(id))
+            .uri(URL_LINKS)
+            .header(TG_HEADER, String.valueOf(id))
             .retrieve()
             .bodyToFlux(LinkResponse.class);
     }
 
-    public Mono<LinkResponse> save(Long id, String url) {
-        LinkRequest request = new LinkRequest().setUrl(url.toString());
+    public Mono<LinkResponse> save(Long id, LinkRequest request) {
         return webClient.post()
-            .uri("/links")
-            .header("Tg-Chat-Id", String.valueOf(id))
-            .body(BodyInserters.fromValue(request))
+            .uri(URL_LINKS)
+            .header(TG_HEADER, String.valueOf(id))
+            .bodyValue(request)
             .retrieve()
             .bodyToMono(LinkResponse.class);
     }
 
-    public Mono<LinkResponse> remove(Long id, String url) {
-        LinkRequest request = new LinkRequest().setUrl(url.toString());
+    public Mono<Void> remove(Long id,  LinkRequest request) {
         return webClient.delete()
-            .uri(uriBuilder -> uriBuilder.path("/links").queryParam("url", request.getUrl()).build())
-            .header("Tg-Chat-Id", String.valueOf(id))
+            .uri(URL_LINKS + "/{url}", request.getUrl())
+            .header(TG_HEADER, String.valueOf(id))
             .retrieve()
-            .bodyToMono(LinkResponse.class);
+            .bodyToMono(Void.class);
     }
 }

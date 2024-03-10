@@ -2,6 +2,8 @@ package org.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.java.bot.aspect.BotCommand;
 import org.java.bot.bot.Command;
@@ -9,8 +11,6 @@ import org.java.bot.component.CommandHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component

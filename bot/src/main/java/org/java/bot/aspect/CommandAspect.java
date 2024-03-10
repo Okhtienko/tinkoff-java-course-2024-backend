@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.java.bot.component.CommandFilter;
 import org.java.bot.service.UserService;
+import org.java.bot.util.CommandUtils;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -17,13 +17,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CommandAspect {
     private final UserService userService;
-    private final CommandFilter commands;
 
     private boolean hasAccess(Update update) {
         Long id = update.message().from().id();
         if (!userService.exists(id)) {
             String command = update.message().text();
-            return commands.exists(command);
+            return CommandUtils.belong(command);
         }
         return true;
     }

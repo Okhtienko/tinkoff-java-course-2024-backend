@@ -5,9 +5,9 @@ import com.pengrad.telegrambot.request.SendMessage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class MessageUtil {
+public final class MessageUtils {
 
-    private MessageUtil() {}
+    private MessageUtils() {}
 
     public static SendMessage createInvalidLinkResponse(Update update) {
         Long chatId = update.message().chat().id();

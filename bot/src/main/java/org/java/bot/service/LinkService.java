@@ -1,22 +1,24 @@
 package org.java.bot.service;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import lombok.RequiredArgsConstructor;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.java.bot.repository.LinkRepository;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class LinkService implements LinkRepository {
-    private final UserService userService;
+    private Map<Long, List<String>> links;
+
+    public LinkService() {
+        this.links = new HashMap<>();
+    }
 
     @Override
     public void save(Long id, String link) {
-        userService.get().computeIfPresent(id, (key, links) -> {
+        links.computeIfPresent(id, (key, links) -> {
             links.add(link);
             log.info("Link {} saved for user with ID {}", link, id);
             return links;
@@ -25,7 +27,7 @@ public class LinkService implements LinkRepository {
 
     @Override
     public void remove(Long id, String link) {
-        userService.get().computeIfPresent(id, (key, links) -> {
+        links.computeIfPresent(id, (key, links) -> {
             links.remove(link);
             log.info("Link {} removed for user with ID {}", link, id);
             return links;
@@ -34,17 +36,14 @@ public class LinkService implements LinkRepository {
 
     @Override
     public Boolean checkLinkFormat(String link) {
-        String regex = "^(https?://)?(www\\.)?([a-zA-Z0-9]+[-a-zA-Z0-9]*\\.)+[a-zA-Z]{2,6}([/\\?].*)?$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(link);
-        boolean isValid = matcher.matches();
-        log.info("Link {} format is valid: {}", link, isValid);
-        return isValid;
+        String regex = "^(https?://)?([a-zA-Z0-9]+[a-zA-Z0-9-]*\\.)+[a-zA-Z]{2,6}(/.*)?$";
+        log.info("Link {} format is valid: {}", link, regex);
+        return link.matches(regex);
     }
 
     @Override
     public List<String> get(Long id) {
-        return userService.get().get(id);
+        return links.get(id);
     }
 
     @Override

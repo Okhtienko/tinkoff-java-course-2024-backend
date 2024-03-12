@@ -8,7 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.java.bot.service.UserService;
-import org.java.bot.util.CommandUtils;
+import org.java.bot.utils.CommandUtils;
 import org.springframework.stereotype.Component;
 
 @Slf4j

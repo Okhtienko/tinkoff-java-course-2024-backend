@@ -11,7 +11,7 @@ public interface LinkRepository {
 
     Boolean exists(Long id, String link);
 
-    Boolean checkLinkFormat(String link);
+    Boolean check(String link);
 
     List<String> get(Long id);
 }

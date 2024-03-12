@@ -9,8 +9,8 @@ import org.java.bot.bot.UserMessageProcessor;
 import org.java.bot.component.CommandHolder;
 import org.java.bot.service.BotStateService;
 import org.java.bot.service.LinkService;
-import org.java.bot.util.BotState;
-import org.java.bot.util.MessageUtils;
+import org.java.bot.utils.BotState;
+import org.java.bot.utils.MessageUtils;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -41,7 +41,7 @@ public class MessageProcessor implements UserMessageProcessor {
         String link = update.message().text();
 
         try {
-            if (linkService.checkLinkFormat(link)) {
+            if (linkService.check(link)) {
                 linkService.save(userId, link);
                 botStateService.reset();
                 return new SendMessage(chatId, "Link saved.");
@@ -65,7 +65,7 @@ public class MessageProcessor implements UserMessageProcessor {
                 botStateService.reset();
                 return new SendMessage(chatId, "Link removed.");
             } else {
-                return new SendMessage(chatId, "Invalid link. Please provide a valid link to remove.");
+                return MessageUtils.createInvalidLinkResponse(update);
             }
         } catch (Exception e) {
             log.error(ERROR_PROCESSING_LINK_ACTION, e);

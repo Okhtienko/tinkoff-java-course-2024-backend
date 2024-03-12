@@ -9,7 +9,7 @@ import org.java.bot.aspect.BotCommand;
 import org.java.bot.bot.Command;
 import org.java.bot.service.BotStateService;
 import org.java.bot.service.LinkService;
-import org.java.bot.util.BotState;
+import org.java.bot.utils.BotState;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -36,11 +36,12 @@ public class UntrackCommand implements Command {
     @Override
     public SendMessage handle(Update update) {
         Long chatId = update.message().chat().id();
+        Long userId = update.message().from().id();
+        List<String> links = linkService.get(userId);
         log.info("Handling UntrackCommand for chat ID: {}", chatId);
-        List<String> links = linkService.get(chatId);
 
         if (check(links)) {
-            return new SendMessage(chatId, "There are no tracked links currently. ");
+            return new SendMessage(chatId, "There are no tracked links currently.");
         }
 
         botStateService.set(BotState.WAITING_FOR_LINK_REMOVE);

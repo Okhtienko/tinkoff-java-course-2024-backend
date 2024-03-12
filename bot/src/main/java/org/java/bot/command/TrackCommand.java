@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.java.bot.aspect.BotCommand;
 import org.java.bot.bot.Command;
 import org.java.bot.service.BotStateService;
-import org.java.bot.util.BotState;
+import org.java.bot.utils.BotState;
 import org.springframework.stereotype.Component;
 
 @Slf4j

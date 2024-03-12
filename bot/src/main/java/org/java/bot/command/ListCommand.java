@@ -44,7 +44,7 @@ public class ListCommand implements Command {
     }
 
     private String getMessageContent(List<String> links) {
-        return links.isEmpty()
+        return links == null || links.isEmpty()
             ? "List of links is empty"
             : "List of tracked links:\n\n"
             + links.stream()

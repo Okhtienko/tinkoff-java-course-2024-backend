@@ -1,6 +1,6 @@
 package org.java.bot.service;
 
-import org.java.bot.util.BotState;
+import org.java.bot.utils.BotState;
 import org.springframework.stereotype.Service;
 
 @Service

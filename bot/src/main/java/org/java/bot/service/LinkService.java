@@ -1,5 +1,6 @@
 package org.java.bot.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,11 +19,7 @@ public class LinkService implements LinkRepository {
 
     @Override
     public void save(Long id, String link) {
-        links.computeIfPresent(id, (key, links) -> {
-            links.add(link);
-            log.info("Link {} saved for user with ID {}", link, id);
-            return links;
-        });
+        links.computeIfAbsent(id, key -> new ArrayList<>()).add(link);
     }
 
     @Override
@@ -35,7 +32,7 @@ public class LinkService implements LinkRepository {
     }
 
     @Override
-    public Boolean checkLinkFormat(String link) {
+    public Boolean check(String link) {
         String regex = "^(https?://)?([a-zA-Z0-9]+[a-zA-Z0-9-]*\\.)+[a-zA-Z]{2,6}(/.*)?$";
         log.info("Link {} format is valid: {}", link, regex);
         return link.matches(regex);

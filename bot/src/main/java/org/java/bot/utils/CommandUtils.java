@@ -1,4 +1,4 @@
-package org.java.bot.util;
+package org.java.bot.utils;
 
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;

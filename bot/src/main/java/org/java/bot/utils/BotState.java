@@ -1,4 +1,4 @@
-package org.java.bot.util;
+package org.java.bot.utils;
 
 public enum BotState {
     WAITING_COMMAND,

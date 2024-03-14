@@ -1,7 +1,9 @@
 package org.java.scrapper.client;
 
+import org.java.scrapper.dto.ApiErrorResponse;
 import org.java.scrapper.dto.LinkUpdateRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -22,6 +24,16 @@ public class BotClient {
             .uri("/updates")
             .bodyValue(request)
             .retrieve()
+            .onStatus(
+                HttpStatusCode::is4xxClientError,
+                response -> response.bodyToMono(ApiErrorResponse.class)
+                    .flatMap(error -> Mono.error(new RuntimeException(error.getDescription())))
+            )
+            .onStatus(
+                HttpStatusCode::is5xxServerError,
+                response -> response.bodyToMono(ApiErrorResponse.class)
+                    .flatMap(error -> Mono.error(new RuntimeException(error.getDescription())))
+            )
             .bodyToMono(String.class);
     }
 }

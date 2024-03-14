@@ -13,5 +13,5 @@ public class ApiErrorResponse {
     private Integer code;
     private String name;
     private String message;
-    private List<StackTraceElement> stacktrace;
+    private List<StackTraceElement> stackTrace;
 }

@@ -3,6 +3,7 @@ package org.java.bot.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.java.bot.dto.LinkUpdateRequest;
+import org.java.bot.exception.BadRequestException;
 import org.java.bot.repository.UpdateRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class UpdateService implements UpdateRepository {
 
     private void validateRequest(LinkUpdateRequest request) {
         if (request.getId() == null || request.getUrl() == null) {
-            throw new IllegalArgumentException("Invalid request parameters");
+            throw new BadRequestException("Invalid request parameters");
         }
     }
 }

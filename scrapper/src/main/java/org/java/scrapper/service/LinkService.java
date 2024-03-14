@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class LinkService implements LinkRepository {
-    private Map<Long, List<LinkResponse>> links;
+    private Map<Long, List<String>> links;
 
     public LinkService() {
         this.links = new HashMap<>();
@@ -25,7 +25,6 @@ public class LinkService implements LinkRepository {
 
     @Override
     public void register(Long id) {
-        validateChat(id);
         if (links.containsKey(id)) {
             throw new ConflictException("Chat already registered");
         }
@@ -34,7 +33,6 @@ public class LinkService implements LinkRepository {
 
     @Override
     public void delete(Long id) {
-        validateChat(id);
         if (!links.containsKey(id)) {
             throw new NotFoundException("Chat not found");
         }
@@ -42,7 +40,7 @@ public class LinkService implements LinkRepository {
     }
 
     @Override
-    public List<LinkResponse> gets(Long id) {
+    public List<String> gets(Long id) {
         log.info("Retrieving links for chat ID: {}", id);
         if (!links.containsKey(id)) {
             throw new BadRequestException("Invalid Chat ID");
@@ -53,60 +51,38 @@ public class LinkService implements LinkRepository {
     @Override
     public LinkResponse save(Long id, String url) throws URISyntaxException {
         log.info("Saving link for chat ID: {} with URL: {}", id, url);
-        validateUrl(url);
+        validate(url);
+        links.computeIfAbsent(id, key -> new ArrayList<>()).add(url);
         LinkResponse link = new LinkResponse().setId(1L).setUrl(new URI(url));
-
-        links.computeIfPresent(id, (key, links) -> {
-            links.add(link);
-            return links;
-        });
-
         return link;
     }
 
     @Override
-    public LinkResponse remove(Long id, String url) throws URISyntaxException {
+    public void remove(Long id, String url) throws URISyntaxException {
         log.info("Removing link for chat ID: {} with URL: {}", id, url);
-        validateUrl(url);
+        validate(url);
 
         if (!exists(id, url)) {
             throw new NotFoundException("Link not found");
         }
-
-        LinkResponse link = new LinkResponse().setId(1L).setUrl(new URI(url));
-
         links.computeIfPresent(id, (key, links) -> {
-            links.add(link);
+            links.removeIf(link -> link.equals(url));
             return links;
         });
-
-        return link;
     }
 
-    private void validateChat(Long id) {
-        if (id == null) {
-            throw new BadRequestException("Invalid request parameters: Chat ID cannot be null");
-        }
-    }
-
-    private void validateUrl(String url) {
-        if (!checkLinkFormat(url)) {
+    private void validate(String url) {
+        if (!check(url)) {
             throw new BadRequestException("Invalid request parameters");
         }
     }
 
-    private Boolean checkLinkFormat(String url) {
+    private Boolean check(String url) {
         String regex = "^(https?://)?([a-zA-Z0-9]+[a-zA-Z0-9-]*\\.)+[a-zA-Z]{2,6}(/.*)?$";
         return url.matches(regex);
     }
 
     private Boolean exists(Long id, String url) {
-        return links.get(id).stream().anyMatch(link -> {
-            try {
-                return link.getUrl().equals(new URI(url));
-            } catch (URISyntaxException e) {
-                return false;
-            }
-        });
+        return links.get(id).stream().anyMatch(link -> link.equals(url));
     }
 }

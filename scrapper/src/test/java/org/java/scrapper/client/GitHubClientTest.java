@@ -117,7 +117,7 @@ public class GitHubClientTest {
 
         assertTrue(pulls.isEmpty());
     }
-    
+
     @Test
     public void testFetchIssuesSize() {
         wireMockExtension.stubFor(get("/repos/octocat/Hello-World/issues")

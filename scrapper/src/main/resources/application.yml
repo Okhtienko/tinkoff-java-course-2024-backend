@@ -23,3 +23,10 @@ server:
 
 logging:
   config: classpath:log4j2-plain.xml
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+
+service:
+  bot-base-url: "http://localhost:8090/api/v1/bot"

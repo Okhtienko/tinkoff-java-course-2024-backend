@@ -12,6 +12,7 @@ spring:
   application:
     name: scrapper
   liquibase:
+    enabled: false
     change-log: migrations/master.xml
   datasource:
     url: jdbc:postgresql://localhost:5432/scrapper

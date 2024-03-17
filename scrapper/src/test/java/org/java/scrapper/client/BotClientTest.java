@@ -3,7 +3,7 @@ package org.java.scrapper.client;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.java.scrapper.dto.ApiErrorResponse;
-import org.java.scrapper.dto.LinkUpdateRequest;
+import org.java.scrapper.dto.link.LinkUpdateRequest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;

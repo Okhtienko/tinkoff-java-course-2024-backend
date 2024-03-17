@@ -13,4 +13,7 @@ public class LinkRequest {
     @NotBlank(message = "URL may not be blank")
     private String url;
 
+    @NotBlank(message = "CreatedBy may not be blank")
+    private String createdBy;
+
 }

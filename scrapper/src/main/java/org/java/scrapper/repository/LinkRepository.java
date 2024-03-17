@@ -2,16 +2,15 @@ package org.java.scrapper.repository;
 
 import java.net.URISyntaxException;
 import java.util.List;
-import org.java.scrapper.dto.LinkResponse;
+import org.java.scrapper.dto.link.LinkRequest;
+import org.java.scrapper.dto.link.LinkResponse;
 
 public interface LinkRepository {
-    void register(Long id);
+    LinkResponse save(LinkRequest request, Long chatId) throws URISyntaxException;
 
-    void delete(Long id);
+    LinkResponse get(LinkRequest request, Long chatId);
 
-    List<String> gets(Long id);
+    void remove(String url, Long chatId);
 
-    LinkResponse save(Long id, String url) throws URISyntaxException;
-
-    void remove(Long id, String url) throws URISyntaxException;
+    List<LinkResponse> gets(Long chatId);
 }

@@ -1,4 +1,4 @@
-package org.java.scrapper.dto;
+package org.java.scrapper.dto.link;
 
 import lombok.Getter;
 import lombok.Setter;

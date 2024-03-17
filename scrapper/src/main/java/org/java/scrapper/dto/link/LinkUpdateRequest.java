@@ -1,4 +1,4 @@
-package org.java.scrapper.dto;
+package org.java.scrapper.dto.link;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

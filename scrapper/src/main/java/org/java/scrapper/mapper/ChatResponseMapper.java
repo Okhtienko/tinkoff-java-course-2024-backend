@@ -6,7 +6,6 @@ import org.java.scrapper.dto.chat.ChatResponse;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class ChatResponseMapper implements RowMapper<ChatResponse> {
     @Override

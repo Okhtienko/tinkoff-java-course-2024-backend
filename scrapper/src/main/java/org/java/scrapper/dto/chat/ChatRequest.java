@@ -11,8 +11,8 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 @Setter
 public class ChatRequest {
 
-    @NotNull(message = "ChatId may not be null")
-    private Long chatId;
+    @NotNull(message = "ID may not be null")
+    private Long id;
 
     @NotBlank(message = "Name may not be blank")
     private String name;

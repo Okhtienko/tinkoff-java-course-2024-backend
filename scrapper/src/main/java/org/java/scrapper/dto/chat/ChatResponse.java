@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 @Setter
 public class ChatResponse {
     private Long id;
-    private Long chatId;
     private String name;
     private String createdBy;
 }

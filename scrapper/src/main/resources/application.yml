@@ -2,7 +2,7 @@ app:
   scheduler:
     enable: true
     interval: 10s
-    force-check-delay: 10s
+    force-check-delay: 300s
 
 client:
   github-base-url: "https://api.github.com"

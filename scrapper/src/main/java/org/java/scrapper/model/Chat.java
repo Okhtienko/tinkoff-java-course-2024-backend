@@ -7,7 +7,6 @@ import lombok.Data;
 @Builder
 public class Chat {
     private Long id;
-    private Long chatId;
     private String name;
     private String createdBy;
 }

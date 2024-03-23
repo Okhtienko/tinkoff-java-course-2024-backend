@@ -1,24 +1,25 @@
 package org.java.scrapper.mapper;
 
-import java.net.URI;
 import java.sql.ResultSet;
 import java.time.ZoneOffset;
 import lombok.SneakyThrows;
-import org.java.scrapper.dto.link.LinkResponse;
+import org.java.scrapper.model.Link;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LinkResponseMapper implements RowMapper<LinkResponse> {
+public class LinkMapper implements RowMapper<Link> {
 
     @Override
     @SneakyThrows
-    public LinkResponse mapRow(ResultSet resultSet, int row) {
-        LinkResponse link = new LinkResponse().setId(resultSet.getLong("id"))
-            .setUrl(new URI(resultSet.getString("url")))
-            .setCreatedBy(resultSet.getString("create_by"))
-            .setLastCheck(resultSet.getTimestamp("last_check").toLocalDateTime().atOffset(ZoneOffset.UTC))
-            .setCreatedAt(resultSet.getTimestamp("create_at").toLocalDateTime().atOffset(ZoneOffset.UTC));
+    public Link mapRow(ResultSet resultSet, int row) {
+        Link link = Link.builder()
+            .id(resultSet.getLong("id"))
+            .url(resultSet.getString("url"))
+            .createdBy(resultSet.getString("create_by"))
+            .lastCheck(resultSet.getTimestamp("last_check").toLocalDateTime().atOffset(ZoneOffset.UTC))
+            .createdAt(resultSet.getTimestamp("create_at").toLocalDateTime().atOffset(ZoneOffset.UTC))
+            .build();
         return link;
     }
 }

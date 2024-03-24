@@ -1,4 +1,4 @@
-package org.java.scrapper.service;
+package org.java.scrapper.jdbc;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;

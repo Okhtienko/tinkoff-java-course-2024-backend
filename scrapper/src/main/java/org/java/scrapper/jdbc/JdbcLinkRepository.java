@@ -1,4 +1,4 @@
-package org.java.scrapper.service;
+package org.java.scrapper.jdbc;
 
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.java.scrapper.mapper.LinkMapper;
 import org.java.scrapper.model.Link;
 import org.java.scrapper.repository.LinkRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -43,6 +44,9 @@ public class JdbcLinkRepository implements LinkRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final LinkMapper mapper;
+
+    @Value("${app.scheduler.force-check-delay}")
+    private Integer checkDelay;
 
     @Override
     public Link save(String url, String createdBy, Long chatId) {
@@ -81,7 +85,7 @@ public class JdbcLinkRepository implements LinkRepository {
 
     @Override
     public List<Link> getsByLastCheck() {
-        return jdbcTemplate.query(SQL_GETS_BY_LAST_CHECK, mapper, OffsetDateTime.now().minusHours(24));
+        return jdbcTemplate.query(SQL_GETS_BY_LAST_CHECK, mapper, OffsetDateTime.now().minusSeconds(checkDelay));
     }
 
     @Override
@@ -90,7 +94,7 @@ public class JdbcLinkRepository implements LinkRepository {
             SQL_GET_CHATS_BY_LAST_CHECK,
             (rs, rowNum) -> rs.getLong("chat_id"),
             url,
-            OffsetDateTime.now().minusHours(24)
+            OffsetDateTime.now().minusSeconds(checkDelay)
         );
     }
 

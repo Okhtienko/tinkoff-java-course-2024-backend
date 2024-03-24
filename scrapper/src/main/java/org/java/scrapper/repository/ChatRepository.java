@@ -1,16 +1,16 @@
 package org.java.scrapper.repository;
 
 import java.util.List;
-import java.util.Optional;
-import org.java.scrapper.dto.chat.ChatRequest;
-import org.java.scrapper.dto.chat.ChatResponse;
+import org.java.scrapper.model.Chat;
 
 public interface ChatRepository {
-    void save(ChatRequest request);
+    void save(Long id, String name, String createdBy);
 
-    void delete(Long chatId);
+    void delete(Long id);
 
-    Optional<ChatResponse> get(Long chatId);
+    Chat get(Long id);
 
-    List<ChatResponse> gets();
+    List<Chat> gets();
+
+    Boolean exists(Long id);
 }

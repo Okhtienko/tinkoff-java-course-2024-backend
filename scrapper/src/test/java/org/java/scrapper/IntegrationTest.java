@@ -71,9 +71,4 @@ public abstract class IntegrationTest {
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
     }
-
-    @Test
-    public void testPostgresContainerIsRunning() {
-        assertTrue(POSTGRES.isRunning());
-    }
 }

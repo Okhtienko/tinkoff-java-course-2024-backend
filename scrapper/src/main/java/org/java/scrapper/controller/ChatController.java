@@ -2,7 +2,6 @@ package org.java.scrapper.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.java.scrapper.dto.chat.ChatRequest;
 import org.java.scrapper.dto.chat.ChatResponse;
@@ -29,15 +28,15 @@ public class ChatController {
         jdbcChatService.save(request);
     }
 
-    @DeleteMapping("/chat/{chatId}")
+    @DeleteMapping("/chat/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long chatId) {
-        jdbcChatService.delete(chatId);
+    public void delete(@PathVariable Long id) {
+        jdbcChatService.delete(id);
     }
 
-    @GetMapping("/chat/{chatId}")
-    public Optional<ChatResponse> get(@PathVariable Long chatId) {
-        return jdbcChatService.get(chatId);
+    @GetMapping("/chat/{id}")
+    public ChatResponse get(@PathVariable Long id) {
+        return jdbcChatService.get(id);
     }
 
     @GetMapping("/chats")

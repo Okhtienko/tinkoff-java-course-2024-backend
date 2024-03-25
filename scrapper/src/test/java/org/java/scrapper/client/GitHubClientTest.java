@@ -6,7 +6,6 @@ import org.java.scrapper.dto.github.GitHubCommitResponse;
 import org.java.scrapper.dto.github.GitHubIssueResponse;
 import org.java.scrapper.dto.github.GitHubPullResponse;
 import org.java.scrapper.dto.github.GitHubRepositoryResponse;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @WireMockTest
-@Disabled
 public class GitHubClientTest {
 
     @Autowired

@@ -5,7 +5,6 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.java.scrapper.dto.stackoverflow.StackOverflowAnswerResponse;
 import org.java.scrapper.dto.stackoverflow.StackOverflowItemResponse;
 import org.java.scrapper.dto.stackoverflow.StackOverflowQuestionResponse;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @WireMockTest
-@Disabled
 public class StackOverflowClientTest {
 
     @Autowired

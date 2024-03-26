@@ -13,18 +13,22 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class JdbcChatRepository implements ChatRepository {
-    private final static String SQL_SAVE = "INSERT INTO chats (id, name, created_by) VALUES (?, ?, ?)";
-
-    private final static String SQL_EXISTS = "SELECT EXISTS(SELECT * FROM chats WHERE id = ?)";
-
-    private final static String SQL_DELETE = "DELETE FROM chats WHERE id = ?";
-
-    private final static String SQL_GET = "SELECT * FROM chats WHERE id = ?";
-
-    private final static String SQL_GETS = "SELECT * FROM chats";
-
+    private final ChatMapper mapper;
     private final JdbcTemplate jdbcTemplate;
-    private  final ChatMapper mapper;
+
+    private static final String SQL_GETS = "SELECT * FROM chats";
+
+    private static final String SQL_GET = "SELECT * FROM chats WHERE id = ?";
+
+    private static final String SQL_DELETE = "DELETE FROM chats WHERE id = ?";
+
+    private static final String SQL_EXISTS = "SELECT EXISTS(SELECT * FROM chats WHERE id = ?)";
+
+    private static final String SQL_DELETE_LINK_CHAT = "DELETE FROM links_chats WHERE chat_id = ?";
+
+    private static final String SQL_SAVE = "INSERT INTO chats (id, name, created_by) VALUES (?, ?, ?)";
+
+    private static final String SQL_EXISTS_IN_LINK_CHAT = "SELECT EXISTS(SELECT * FROM links_chats WHERE chat_id = ?)";
 
     @Override
     public void save(Long id, String name, String createdBy) {
@@ -36,6 +40,11 @@ public class JdbcChatRepository implements ChatRepository {
     @Override
     public void delete(Long id) {
         log.info("Deleting chat with ID: {}", id);
+
+        if (existsInLinkChat(id)) {
+            jdbcTemplate.update(SQL_DELETE_LINK_CHAT, id);
+        }
+
         jdbcTemplate.update(SQL_DELETE, id);
         log.info("Chat deleted successfully!");
     }
@@ -56,5 +65,10 @@ public class JdbcChatRepository implements ChatRepository {
     public Boolean exists(Long id) {
         log.info("Checking if chat with ID {} exists", id);
         return jdbcTemplate.queryForObject(SQL_EXISTS, Boolean.class, id);
+    }
+
+    public Boolean existsInLinkChat(Long id) {
+        log.info("Checking if chat with ID {} exists in link_chats table", id);
+        return jdbcTemplate.queryForObject(SQL_EXISTS_IN_LINK_CHAT, Boolean.class, id);
     }
 }

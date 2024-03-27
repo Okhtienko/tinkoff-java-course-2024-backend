@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.java.scrapper.dto.chat.ChatRequest;
 import org.java.scrapper.dto.chat.ChatResponse;
-import org.java.scrapper.jdbc.JdbcChatService;
+import org.java.scrapper.domain.ChatManagementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,27 +20,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/scrapper")
 @RequiredArgsConstructor
 public class ChatController {
-    private final JdbcChatService jdbcChatService;
+    private final ChatManagementService chatService;
 
     @PostMapping("/chat")
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody @Valid ChatRequest request) {
-        jdbcChatService.save(request);
+        chatService.save(request);
     }
 
     @DeleteMapping("/chat/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        jdbcChatService.delete(id);
+        chatService.delete(id);
     }
 
     @GetMapping("/chat/{id}")
     public ChatResponse get(@PathVariable Long id) {
-        return jdbcChatService.get(id);
+        return chatService.get(id);
     }
 
     @GetMapping("/chats")
     public List<ChatResponse> gets() {
-        return jdbcChatService.gets();
+        return chatService.gets();
     }
 }

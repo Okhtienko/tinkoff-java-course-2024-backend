@@ -1,5 +1,6 @@
 package org.java.scrapper.repository;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import org.java.scrapper.model.Link;
 
@@ -12,11 +13,11 @@ public interface LinkRepository {
 
     List<Link> gets(Long chatId);
 
-    List<Link> getsByLastCheck();
+    List<Link> getsByLastCheck(Long delay);
 
-    List<Long> getsChatByLastCheck(String url);
+    List<Long> getsChatByLastCheck(Long delay, String url);
 
     Boolean exists(String url);
 
-    void update(Long id);
+    void updateLastCheck(Long id, OffsetDateTime date);
 }

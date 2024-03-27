@@ -1,4 +1,4 @@
-package org.java.scrapper.jdbc;
+package org.java.scrapper.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -8,13 +8,14 @@ import org.java.scrapper.dto.chat.ChatRequest;
 import org.java.scrapper.dto.chat.ChatResponse;
 import org.java.scrapper.exception.ConflictException;
 import org.java.scrapper.exception.NotFoundException;
+import org.java.scrapper.jdbc.JdbcChatRepository;
 import org.java.scrapper.model.Chat;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class JdbcChatService {
+public class ChatService {
     private final static String CONFLICT_MESSAGE = "Chat already registered.";
 
     private final static String NOT_FOUND_MESSAGE = "Chat not found.";

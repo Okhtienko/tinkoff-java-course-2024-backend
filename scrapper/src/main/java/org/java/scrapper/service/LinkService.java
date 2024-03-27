@@ -56,8 +56,8 @@ public class JdbcLinkService {
         return converter.toDto(link);
     }
 
-    public List<LinkResponse> getsByLastCheck() {
-        List<Link> links = jdbcLinkRepository.getsByLastCheck();
+    public List<LinkResponse> getsByLastCheck(Long delay) {
+        List<Link> links = jdbcLinkRepository.getsByLastCheck(delay);
         return converter.toDto(links);
     }
 }

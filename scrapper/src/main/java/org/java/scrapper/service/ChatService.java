@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.java.scrapper.converter.ChatConverter;
+import org.java.scrapper.domain.ChatManagementService;
 import org.java.scrapper.dto.chat.ChatRequest;
 import org.java.scrapper.dto.chat.ChatResponse;
 import org.java.scrapper.exception.ConflictException;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ChatService {
+public class ChatService implements ChatManagementService {
     private final static String CONFLICT_MESSAGE = "Chat already registered.";
 
     private final static String NOT_FOUND_MESSAGE = "Chat not found.";
@@ -23,6 +24,7 @@ public class ChatService {
     private final JdbcChatRepository jdbcChatRepository;
     private final ChatConverter converter;
 
+    @Override
     public void save(ChatRequest request) {
      if (jdbcChatRepository.exists(request.getId())) {
          throw new ConflictException(CONFLICT_MESSAGE);
@@ -30,6 +32,7 @@ public class ChatService {
      jdbcChatRepository.save(request.getId(), request.getName(), request.getCreatedBy());
     }
 
+    @Override
     public void delete(Long id) {
         if (!jdbcChatRepository.exists(id)) {
             throw new NotFoundException(NOT_FOUND_MESSAGE);
@@ -37,6 +40,7 @@ public class ChatService {
         jdbcChatRepository.delete(id);
     }
 
+    @Override
     public ChatResponse get(Long id) {
         if (!jdbcChatRepository.exists(id)) {
             throw new NotFoundException(NOT_FOUND_MESSAGE);
@@ -45,6 +49,7 @@ public class ChatService {
         return converter.toDto(chat);
     }
 
+    @Override
     public List<ChatResponse> gets() {
         List<Chat> chats = jdbcChatRepository.gets();
         return converter.toDto(chats);

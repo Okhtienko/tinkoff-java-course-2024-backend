@@ -1,7 +1,7 @@
 package org.java.scrapper.client;
 
 import org.java.scrapper.dto.ApiErrorResponse;
-import org.java.scrapper.dto.LinkUpdateRequest;
+import org.java.scrapper.dto.link.LinkUpdateRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;

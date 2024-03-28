@@ -1,4 +1,4 @@
-package org.java.scrapper.dto;
+package org.java.scrapper.dto.link;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,5 +12,8 @@ public class LinkRequest {
 
     @NotBlank(message = "URL may not be blank")
     private String url;
+
+    @NotBlank(message = "CreatedBy may not be blank")
+    private String createdBy;
 
 }

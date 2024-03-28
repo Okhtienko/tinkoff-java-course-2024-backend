@@ -3,15 +3,13 @@ package org.java.scrapper.client;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.java.scrapper.dto.ApiErrorResponse;
-import org.java.scrapper.dto.LinkUpdateRequest;
-import org.junit.jupiter.api.Disabled;
+import org.java.scrapper.dto.link.LinkUpdateRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import reactor.core.publisher.Mono;
@@ -23,9 +21,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @WireMockTest
-@Disabled
 public class BotClientTest {
 
     @Autowired
@@ -38,9 +35,10 @@ public class BotClientTest {
         .options(wireMockConfig().dynamicPort().dynamicPort())
         .build();
 
-    @DynamicPropertySource
-    static void setUpMockBaseUrl(DynamicPropertyRegistry registry) {
-        registry.add("bot-base-url", wireMockExtension::baseUrl);
+    @BeforeEach
+    void setUpBotClient() {
+        String baseUrl = wireMockExtension.baseUrl();
+        botClient = new BotClient(baseUrl);
     }
 
     @Test

@@ -13,6 +13,11 @@
     <version>${revision}</version>
 
     <dependencies>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+
         <!-- Openapi -->
         <dependency>
             <groupId>org.springdoc</groupId>

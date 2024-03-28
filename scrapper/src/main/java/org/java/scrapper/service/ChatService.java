@@ -9,8 +9,8 @@ import org.java.scrapper.dto.chat.ChatRequest;
 import org.java.scrapper.dto.chat.ChatResponse;
 import org.java.scrapper.exception.ConflictException;
 import org.java.scrapper.exception.NotFoundException;
-import org.java.scrapper.jdbc.JdbcChatRepository;
 import org.java.scrapper.model.Chat;
+import org.java.scrapper.repository.ChatRepository;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -21,37 +21,37 @@ public class ChatService implements ChatManagementService {
 
     private final static String NOT_FOUND_MESSAGE = "Chat not found.";
 
-    private final JdbcChatRepository jdbcChatRepository;
+    private final ChatRepository chatRepository;
     private final ChatConverter converter;
 
     @Override
     public void save(ChatRequest request) {
-     if (jdbcChatRepository.exists(request.getId())) {
+     if (chatRepository.exists(request.getId())) {
          throw new ConflictException(CONFLICT_MESSAGE);
      }
-     jdbcChatRepository.save(request.getId(), request.getName(), request.getCreatedBy());
+     chatRepository.save(request.getId(), request.getName(), request.getCreatedBy());
     }
 
     @Override
     public void delete(Long id) {
-        if (!jdbcChatRepository.exists(id)) {
+        if (!chatRepository.exists(id)) {
             throw new NotFoundException(NOT_FOUND_MESSAGE);
         }
-        jdbcChatRepository.delete(id);
+        chatRepository.delete(id);
     }
 
     @Override
     public ChatResponse get(Long id) {
-        if (!jdbcChatRepository.exists(id)) {
+        if (!chatRepository.exists(id)) {
             throw new NotFoundException(NOT_FOUND_MESSAGE);
         }
-        Chat chat = jdbcChatRepository.get(id);
+        Chat chat = chatRepository.get(id);
         return converter.toDto(chat);
     }
 
     @Override
     public List<ChatResponse> gets() {
-        List<Chat> chats = jdbcChatRepository.gets();
+        List<Chat> chats = chatRepository.gets();
         return converter.toDto(chats);
     }
 }

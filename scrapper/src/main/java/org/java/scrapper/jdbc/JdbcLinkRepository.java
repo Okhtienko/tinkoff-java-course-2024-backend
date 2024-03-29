@@ -43,7 +43,7 @@ public class JdbcLinkRepository implements LinkRepository {
     private static final String SQL_UPDATE = "UPDATE links SET last_check = ? WHERE id = ?";
 
     private final static String SQL_GETS_BY_LAST_CHECK =
-        "SELECT * FROM links WHERE links.last_check < ? ORDER BY links.last_check DESC LIMIT 100";
+        "SELECT * FROM links WHERE last_check < ?";
 
     private final static String SQL_EXISTS_BY_URL = "SELECT EXISTS(SELECT * FROM links WHERE url = ?)";
 

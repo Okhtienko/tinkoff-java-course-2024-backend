@@ -1,7 +1,7 @@
 package org.java.scrapper.datamanager;
 
-import org.java.scrapper.model.Link;
+import org.java.scrapper.dto.link.LinkResponse;
 
 public interface LinkChecker {
-    Boolean check(Link link);
+    Boolean check(LinkResponse link);
 }

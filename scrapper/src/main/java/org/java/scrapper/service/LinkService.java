@@ -1,5 +1,6 @@
 package org.java.scrapper.service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -82,6 +83,11 @@ public class LinkService implements LinkManagementService {
             throw new NotFoundException(NOT_FOUND_MESSAGE);
         }
         return linkRepository.getsChatByLastCheck(delay, link.getUrl().toString());
+    }
+
+    @Override
+    public void updateLastCheck(LinkResponse response, OffsetDateTime date) {
+        linkRepository.updateLastCheck(response.getId(), date);
     }
 
     private Link updateLinkChat(String url, Long chatId) {

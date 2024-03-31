@@ -59,6 +59,8 @@ public class ChatServiceTest extends IntegrationTest {
     }
 
     @Test
+    @Transactional
+    @Rollback
     public void testGetSuccess() {
         Long id = 123L;
         Chat chat = buildChat(id, "Chat", "User");

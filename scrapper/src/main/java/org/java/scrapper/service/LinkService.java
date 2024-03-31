@@ -1,88 +1,98 @@
 package org.java.scrapper.service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.java.scrapper.dto.LinkResponse;
-import org.java.scrapper.exception.BadRequestException;
+import org.java.scrapper.converter.LinkConverter;
+import org.java.scrapper.domain.LinkManagementService;
+import org.java.scrapper.dto.link.LinkRequest;
+import org.java.scrapper.dto.link.LinkResponse;
 import org.java.scrapper.exception.ConflictException;
 import org.java.scrapper.exception.NotFoundException;
+import org.java.scrapper.model.Link;
 import org.java.scrapper.repository.LinkRepository;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class LinkService implements LinkRepository {
-    private Map<Long, List<String>> links;
+@RequiredArgsConstructor
+public class LinkService implements LinkManagementService {
+    private final static String CONFLICT_MESSAGE = "The link has already been saved.";
+    private final static String NOT_FOUND_MESSAGE = "Link not found.";
 
-    public LinkService() {
-        this.links = new HashMap<>();
-    }
+    private final LinkRepository linkRepository;
+    private final LinkConverter converter;
 
     @Override
-    public void register(Long id) {
-        if (links.containsKey(id)) {
-            throw new ConflictException("Chat already registered");
+    public LinkResponse save(LinkRequest request, Long chatId) {
+        if (linkRepository.existsByUrlAndChatId(request.getUrl(), chatId)) {
+            throw new ConflictException(CONFLICT_MESSAGE);
         }
-        links.put(id, new ArrayList<>());
+
+        Link link = linkRepository.existsByUrl(request.getUrl())
+            ? updateLinkChat(request.getUrl(), chatId)
+            : linkRepository.save(request.getUrl(), request.getCreatedBy(), chatId);
+
+        return converter.toDto(link);
     }
 
     @Override
-    public void delete(Long id) {
-        if (!links.containsKey(id)) {
-            throw new NotFoundException("Chat not found");
+    public LinkResponse get(LinkRequest request, Long chatId) {
+        if (!linkRepository.existsByUrlAndChatId(request.getUrl(), chatId)) {
+            throw new NotFoundException(NOT_FOUND_MESSAGE);
         }
-        links.remove(id);
+
+        Link link = linkRepository.get(request.getUrl(), chatId);
+
+        return converter.toDto(link);
     }
 
     @Override
-    public List<String> gets(Long id) {
-        log.info("Retrieving links for chat ID: {}", id);
-        if (!links.containsKey(id)) {
-            throw new BadRequestException("Invalid Chat ID");
+    public List<LinkResponse> gets(Long chatId) {
+        List<Link> links = linkRepository.gets(chatId);
+        return converter.toDto(links);
+    }
+
+    @Override
+    public LinkResponse remove(LinkRequest request, Long chatId) {
+        if (!linkRepository.existsByUrlAndChatId(request.getUrl(), chatId)) {
+            throw new NotFoundException(NOT_FOUND_MESSAGE);
         }
-        return links.get(id);
+
+        Link link = linkRepository.get(request.getUrl(), chatId);
+
+        linkRepository.removeLinkChat(link.getId(), chatId);
+
+        if (!linkRepository.existsLinkChat(link.getId())) {
+            linkRepository.remove(request.getUrl());
+        }
+
+        return converter.toDto(link);
     }
 
     @Override
-    public LinkResponse save(Long id, String url) throws URISyntaxException {
-        log.info("Saving link for chat ID: {} with URL: {}", id, url);
-        validate(url);
-        links.computeIfAbsent(id, key -> new ArrayList<>()).add(url);
-        LinkResponse link = new LinkResponse().setId(1L).setUrl(new URI(url));
+    public List<LinkResponse> getsByLastCheck(Long delay) {
+        List<Link> links = linkRepository.getsByLastCheck(delay);
+        return converter.toDto(links);
+    }
+
+    @Override
+    public List<Long> getsChatByLastCheck(Long delay, LinkResponse link) {
+        if (!linkRepository.existsByUrl(link.getUrl().toString())) {
+            throw new NotFoundException(NOT_FOUND_MESSAGE);
+        }
+        return linkRepository.getsChatByLastCheck(delay, link.getUrl().toString());
+    }
+
+    @Override
+    public void updateLastCheck(LinkResponse response, OffsetDateTime date) {
+        linkRepository.updateLastCheck(response.getId(), date);
+    }
+
+    private Link updateLinkChat(String url, Long chatId) {
+        Link link = linkRepository.get(url);
+        linkRepository.updateLinkChat(link.getId(), chatId);
         return link;
-    }
-
-    @Override
-    public void remove(Long id, String url) throws URISyntaxException {
-        log.info("Removing link for chat ID: {} with URL: {}", id, url);
-        validate(url);
-
-        if (!exists(id, url)) {
-            throw new NotFoundException("Link not found");
-        }
-        links.computeIfPresent(id, (key, links) -> {
-            links.removeIf(link -> link.equals(url));
-            return links;
-        });
-    }
-
-    private void validate(String url) {
-        if (!check(url)) {
-            throw new BadRequestException("Invalid request parameters");
-        }
-    }
-
-    private Boolean check(String url) {
-        String regex = "^(https?://)?([a-zA-Z0-9]+[a-zA-Z0-9-]*\\.)+[a-zA-Z]{2,6}(/.*)?$";
-        return url.matches(regex);
-    }
-
-    private Boolean exists(Long id, String url) {
-        return links.get(id).stream().anyMatch(link -> link.equals(url));
     }
 }

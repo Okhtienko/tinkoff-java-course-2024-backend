@@ -1,6 +1,5 @@
-package org.java.scrapper.dto;
+package org.java.scrapper.dto.chat;
 
-import java.net.URI;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -8,7 +7,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class LinkResponse {
+public class ChatResponse {
     private Long id;
-    private URI url;
+    private String name;
+    private String createdBy;
 }

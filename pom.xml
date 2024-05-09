@@ -46,7 +46,7 @@
         <checkstyle.version>10.12.7</checkstyle.version>
 
         <!-- Openapi -->
-        <springdoc.version>2.3.0</springdoc.version>
+        <springdoc.version>2.5.0</springdoc.version>
     </properties>
 
     <modules>
